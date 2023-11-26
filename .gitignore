@@ -1,0 +1,5 @@
+.venv/
+/**/__pycache__
+
+uploads/*
+!uploads/1700996361_shop-categories-sand.png
