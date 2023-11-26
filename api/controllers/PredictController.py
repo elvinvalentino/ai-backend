@@ -7,20 +7,12 @@ from werkzeug.utils import secure_filename
 from keras.applications.vgg19 import VGG19
 from keras.models import load_model
 import time
+import ssl
 
 ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and \
         filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-# image variables
-IMAGE_MODEL= load_model( 
-    os.path.join(
-      os.path.dirname(__file__), "..", "assets", "image_model.keras"
-    )
-  , 
-  'rb'
-)
 
 CATEGORIES = ['Acne or Rosacea', 'Malignant Lesions', 'Psoriasis or Lichen Planus']
 class PredictController:
@@ -99,7 +91,14 @@ def predict_image(PATH):
         os.path.dirname(__file__), "..", "assets", "image_model.keras"
       ))
   
+  # image variables
+  IMAGE_MODEL= load_model( 
+      os.path.join(
+        os.path.dirname(__file__), "..", "assets", "image_model.h5"
+      )
+  )
   print('model loaded')
+  ssl._create_default_https_context = ssl._create_unverified_context
   VGG = VGG19(weights='imagenet', include_top=False)
   print('VGG loaded')
 
@@ -124,7 +123,7 @@ def predict_image(PATH):
 def predict_text(STRING):
   with open(
     os.path.join(
-      os.path.dirname(__file__), "..", "assets", "tfidf.pkl'"
+      os.path.dirname(__file__), "..", "assets", "tfidf.pkl"
     ), 
     'rb'
   ) as file:
