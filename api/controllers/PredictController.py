@@ -67,12 +67,10 @@ class PredictController:
       #     }
 
       image_score = predict_image(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-      text_score = predict_text(text_input)
+      text_score = predict_text(text_input)     
 
-        
-
-      if max([score['confidence'] for score in image_score]) < 0.50:
-          return ['error', 'image confidence low']
+      # if max([score['confidence'] for score in image_score]) < 0.50:
+      #     return ['error', 'image confidence low']
 
       final_score = []
       for i in range(len(image_score)):
