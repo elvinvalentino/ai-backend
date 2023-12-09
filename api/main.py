@@ -17,3 +17,6 @@ def index():
         return {"data": "hello world"}
     if request.method == "POST":
         return PredictController.predict(app)
+    
+if __name__ == '__main__':
+    app.run(host="0.0.0.0", debug=True)
